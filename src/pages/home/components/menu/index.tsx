@@ -1,21 +1,50 @@
 import { View, Button } from "@tarojs/components";
 
-import Component from "./component";
-import useAuth from "hooks/useAuth";
+import cn from "./index.module.less";
 
-const MenuEdit = () => {
-  const permission = useAuth();
-  console.log("permission...", permission);
+interface IMenu {
+  editing?: boolean;
+  onClick: (data: any) => void;
+}
+
+export default function Menu(props: IMenu) {
+  const dataList = [
+    {
+      name: "1",
+      type: "1"
+    },
+    {
+      name: "2",
+      type: "2"
+    },
+    {
+      name: "3",
+      type: "3"
+    },
+    {
+      name: "4",
+      type: "4"
+    }
+  ];
+
+  console.log("editing...", props);
   return (
-    <View>
-      <Component
-        onClick={e => {
-          console.log("e..", e);
-        }}
-      />
-      {permission ? <Button>编辑</Button> : null}
+    <View
+      className={`hbox flex1 ${cn.menu_container}`}
+      onClick={e => {
+        console.log("target...", e);
+        props.editing ? props.onClick(e.target.dataset) : console.log("hello");
+      }}
+    >
+      {dataList.map(item => (
+        <Button data-menu={item} key={item.name}>
+          {item.name}
+        </Button>
+      ))}
     </View>
   );
-};
+}
 
-export default MenuEdit;
+Menu.options = {
+  addGlobalClass: true
+};
