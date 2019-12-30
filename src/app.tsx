@@ -26,11 +26,12 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      "pages/order/index",
       "pages/home/index",
       "pages/home/edit",
-      "pages/index/index",
       "pages/menu-item/index",
-      "pages/menu-item/edit"
+      "pages/menu-item/edit",
+      "pages/goods/index"
     ],
     window: {
       backgroundTextStyle: "light",

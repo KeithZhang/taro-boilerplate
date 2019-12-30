@@ -33,7 +33,7 @@ const config = {
     images: path.resolve(__dirname, "..", "src/images"),
     pages: path.resolve(__dirname, "..", "src/pages"),
     hooks: path.resolve(__dirname, "..", "src/hooks"),
-    reducers: path.resolve(__dirname, "..", "src/reducers")
+    reducer: path.resolve(__dirname, "..", "src/reducer")
   },
   mini: {
     postcss: {
