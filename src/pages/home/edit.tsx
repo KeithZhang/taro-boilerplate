@@ -1,13 +1,12 @@
-import { View, Button } from "@tarojs/components";
+import { View, Button, Text } from "@tarojs/components";
 import { Config, ComponentOptions } from "@tarojs/taro";
 import useAuth from "hooks/useAuth";
-import MenuEdit from "./components/menu/edit";
 
 const HomeEdit = () => {
   const permission = useAuth();
   return (
     <View>
-      <MenuEdit />
+      <Text className="iconfont icon-plus-solid" />
       {permission ? <Button>保存</Button> : null}
     </View>
   );

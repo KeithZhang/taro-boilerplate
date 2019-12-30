@@ -5,28 +5,10 @@ import cn from "./index.module.less";
 interface IMenu {
   editing?: boolean;
   onClick: (data: any) => void;
+  name: string;
 }
 
 export default function Menu(props: IMenu) {
-  const dataList = [
-    {
-      name: "1",
-      type: "1"
-    },
-    {
-      name: "2",
-      type: "2"
-    },
-    {
-      name: "3",
-      type: "3"
-    },
-    {
-      name: "4",
-      type: "4"
-    }
-  ];
-
   console.log("editing...", props);
   return (
     <View
@@ -36,11 +18,7 @@ export default function Menu(props: IMenu) {
         props.editing ? props.onClick(e.target.dataset) : console.log("hello");
       }}
     >
-      {dataList.map(item => (
-        <Button data-menu={item} key={item.name}>
-          {item.name}
-        </Button>
-      ))}
+      <Button>{props.name}</Button>
     </View>
   );
 }

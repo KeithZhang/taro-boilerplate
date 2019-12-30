@@ -1,14 +1,12 @@
 import { View, Button } from "@tarojs/components";
 import { Config, ComponentOptions } from "@tarojs/taro";
 import useAuth from "hooks/useAuth";
-import Menu from "./components/menu";
 
 export default function Home() {
   const permission = useAuth();
 
   return (
     <View>
-      <Menu onClick={() => {}} />
       {permission ? (
         <Button
           onClick={() => {

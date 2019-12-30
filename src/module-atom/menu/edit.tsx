@@ -1,13 +1,18 @@
-import { View, Button } from "@tarojs/components";
+import { View } from "@tarojs/components";
 
 import Layout from ".";
 import { ComponentOptions } from "@tarojs/taro";
 import cn from "./edit.module.less";
 
-export default function MenuEdit() {
+interface IMenuEdit {
+  name: string;
+}
+
+export default function MenuEdit(props: IMenuEdit) {
   return (
     <View>
       <Layout
+        name={props.name}
         editing={true}
         onClick={e => {
           console.log("MenuEdit..", e);
