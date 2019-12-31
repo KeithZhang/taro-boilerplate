@@ -10,6 +10,12 @@ interface ITransitionProps {
   duration: any;
   name: string;
   children?: any;
+  onBeforeEnter?: () => void;
+  onEnter?: () => void;
+  onAfterEnter?: () => void;
+  onBeforeLeave?: () => void;
+  onLeave?: () => void;
+  onAfterLeave?: () => void;
 }
 
 export default function Transition(props: ITransitionProps) {
@@ -61,12 +67,13 @@ export default function Transition(props: ITransitionProps) {
     }));
     console.log("currentDuration...", currentDuration);
     console.log("enter 1...", state);
-    Taro.eventCenter.trigger("before-enter");
+
+    props.onBeforeEnter && props.onBeforeEnter();
     Promise.resolve()
       .then(nextTick)
       .then(() => {
         // checkStatus("enter");
-        Taro.eventCenter.trigger("enter");
+        props.onEnter && props.onEnter();
         console.log("enter 2...", {
           inited: true,
           display: true,
@@ -85,6 +92,7 @@ export default function Transition(props: ITransitionProps) {
       .then(() => {
         // checkStatus("enter");
         this.transitionEnded = false;
+        setTimeout(() => onTransitionEnd(props.onAfterEnter), currentDuration);
         setState(preState => ({
           ...preState,
           classes: classNames["enter-to"]
@@ -105,12 +113,13 @@ export default function Transition(props: ITransitionProps) {
 
     console.log("leave currentDuration...", currentDuration);
     setState(preState => ({ ...preState, status: "leave" }));
-    Taro.eventCenter.trigger("before-leave");
+
+    props.onBeforeLeave && props.onBeforeLeave();
     Promise.resolve()
       .then(nextTick)
       .then(() => {
         // checkStatus("leave");
-        Taro.eventCenter.trigger("leave");
+        props.onLeave && props.onLeave();
         setState(preState => ({
           ...preState,
           classes: classNames.leave,
@@ -121,7 +130,7 @@ export default function Transition(props: ITransitionProps) {
       .then(() => {
         // checkStatus("leave");
         this.transitionEnded = false;
-        setTimeout(() => onTransitionEnd(), currentDuration);
+        setTimeout(() => onTransitionEnd(props.onAfterLeave), currentDuration);
         setState(preState => ({
           ...preState,
           classes: classNames["leave_to"]
@@ -138,14 +147,15 @@ export default function Transition(props: ITransitionProps) {
     }
   };
 
-  const onTransitionEnd = () => {
+  const onTransitionEnd = callback => {
     console.log("onTransitionEnd...");
     if (this.transitionEnded) {
       return;
     }
 
     this.transitionEnded = true;
-    Taro.eventCenter.trigger(`after-${this.status}`);
+
+    callback && callback();
     const { display } = state;
     if (!props.show && display) {
       setState(preState => ({ ...preState, display: false }));

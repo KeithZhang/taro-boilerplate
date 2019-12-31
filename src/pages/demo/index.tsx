@@ -64,23 +64,23 @@ export default function Demo() {
   }
 
   function onEnter() {
-    console.log("enter");
+    console.log("on enter");
   }
 
   function onAfterEnter() {
-    console.log("after enter");
+    console.log("on after enter");
   }
 
   function onBeforeLeave() {
-    console.log("before leave");
+    console.log("on before leave");
   }
 
   function onLeave() {
-    console.log("leave");
+    console.log("on leave");
   }
 
   function onAfterLeave() {
-    console.log("after leave");
+    console.log("on after leave");
   }
 
   return (
@@ -97,6 +97,24 @@ export default function Demo() {
       <Button onClick={onClickCustom}>Custom</Button>
 
       <Transition show={state.show} name={state.name} custom-class={cn.block}>
+        hello
+      </Transition>
+      <Transition
+        show={state.showCustom}
+        duration={{ enter: 3000, leave: 3000 }}
+        name=""
+        custom-class={cn.block}
+        enter-class={cn.van_enter_class}
+        enter-active-class={cn.van_enter_active_class}
+        leave-active-class={cn.van_leave_active_class}
+        leave-to-class={cn.van_leave_to_class}
+        onBeforeEnter={onBeforeEnter}
+        onEnter={onEnter}
+        onAfterEnter={onAfterEnter}
+        onBeforeLeave={onBeforeLeave}
+        onLeave={onLeave}
+        onAfterLeave={onAfterLeave}
+      >
         hello
       </Transition>
     </View>
