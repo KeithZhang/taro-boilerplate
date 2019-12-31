@@ -1,0 +1,79 @@
+.van_transition {
+  transition-timing-function: ease;
+}
+.van_fade_enter_active,
+.van_fade_leave_active {
+  transition-property: opacity;
+}
+.van_fade_enter,
+.van_fade_leave_to {
+  opacity: 0;
+}
+.van_fade_down_enter_active,
+.van_fade_down_leave_active,
+.van_fade_left_enter_active,
+.van_fade_left_leave_active,
+.van_fade_right_enter_active,
+.van_fade_right_leave_active,
+.van_fade_up_enter_active,
+.van_fade_up_leave_active {
+  transition-property: opacity, -webkit-transform;
+  transition-property: opacity, transform;
+  transition-property: opacity, transform, -webkit-transform;
+}
+.van_fade_up_enter,
+.van_fade_up_leave_to {
+  -webkit-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+}
+.van_fade_down_enter,
+.van_fade_down_leave_to {
+  -webkit-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+}
+.van_fade_left_enter,
+.van_fade_left_leave_to {
+  -webkit-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+  opacity: 0;
+}
+.van_fade_right_enter,
+.van_fade_right_leave_to {
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  opacity: 0;
+}
+.van_slide_down_enter_active,
+.van_slide_down_leave_active,
+.van_slide_left_enter_active,
+.van_slide_left_leave_active,
+.van_slide_right_enter_active,
+.van_slide_right_leave_active,
+.van_slide_up_enter_active,
+.van_slide_up_leave_active {
+  transition-property: -webkit-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform;
+}
+.van_slide_up_enter,
+.van_slide_up_leave_to {
+  -webkit-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
+}
+.van_slide_down_enter,
+.van_slide_down_leave_to {
+  -webkit-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0);
+}
+.van_slide_left_enter,
+.van_slide_left_leave_to {
+  -webkit-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+}
+.van_slide_right_enter,
+.van_slide_right_leave_to {
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+}
