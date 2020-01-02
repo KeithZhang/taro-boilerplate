@@ -27,6 +27,8 @@ class App extends Component {
   config: Config = {
     pages: [
       "pages/demo/index",
+      "pages/demo/overlay/index",
+      "pages/demo/transition/index",
       "pages/home/index",
       "pages/order/index",
       "pages/home/edit",

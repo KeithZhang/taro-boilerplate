@@ -29,8 +29,8 @@ const enhancer = composeEnhancers(
   // other store enhancers if any
 );
 
-export default function configureStore(initialState) {
-  const store = createStore(createReducer(), initialState, enhancer) as any;
+export default function configureStore() {
+  const store = createStore(createReducer(), {}, enhancer) as any;
   // Add a dictionary to keep track of the registered async reducers
   store.asyncReducers = {};
   // Create an inject reducer function

@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from "@tarojs/taro";
 import { isObj } from "../util";
 
 interface ITransitionProps {
-  customStyle?: string;
-  customClass?: string;
+  "custom-style"?: string;
+  "custom-class"?: string;
   show: boolean;
   duration: any;
   name: string;
@@ -150,7 +150,7 @@ export default function Transition(props: ITransitionProps) {
     props.show ? enter() : leave();
   }, [props.show]);
 
-  console.log("transitionState...", state);
+  // console.log("transitionState...", state);
   return (
     <Block>
       {state.inited ? (
@@ -160,7 +160,7 @@ export default function Transition(props: ITransitionProps) {
             state.currentDuration
           }ms; transition-duration: ${state.currentDuration}ms; ${
             state.display ? "" : "display: none;"
-          } ${props.customStyle} `}
+          } ${props["custom-style"]} `}
           onTransitionEnd={onTransitionEnd}
         >
           {props.children}
@@ -174,7 +174,7 @@ Transition.defaultProps = {
   show: true,
   name: "fade",
   duration: 300,
-  customStyle: ""
+  "custom-style": ""
 };
 
 Transition.externalClasses = [
