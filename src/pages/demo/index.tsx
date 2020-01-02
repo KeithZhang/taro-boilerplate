@@ -21,6 +21,16 @@ export default function Demo() {
       >
         transition
       </Button>
+
+      <Button
+        onClick={() => {
+          Taro.navigateTo({
+            url: "/pages/demo/popup/index"
+          });
+        }}
+      >
+        popup
+      </Button>
     </View>
   );
 }
