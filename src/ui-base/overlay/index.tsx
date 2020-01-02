@@ -7,7 +7,7 @@ interface IOverlayProps {
   show?: boolean;
   children?: any;
   zIndex?: number;
-  "custom-style"?: string;
+  customStyle?: string;
   duration?: string | number;
   onClick?: () => void;
 }
@@ -17,7 +17,7 @@ export default function Overlay(props: IOverlayProps) {
     <Transition
       show={props.show}
       duration={props.duration}
-      custom-style={`z-index: ${props.zIndex}; ${props["custom-style"]}`}
+      customStyle={`z-index: ${props.zIndex}; ${props.customStyle}`}
     >
       <View onClick={props.onClick} className={cn.van_overlay}>
         {props.children}
