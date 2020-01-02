@@ -19,15 +19,6 @@ interface ITransitionProps {
 }
 
 export default function Transition(props: ITransitionProps) {
-  const externalClasses = [
-    "enter-class",
-    "enter-active-class",
-    "enter-to-class",
-    "leave-class",
-    "leave-active-class",
-    "leave-to-class",
-    "custom-class"
-  ];
   let [state, setState] = useState({
     type: "",
     inited: false,
@@ -40,22 +31,22 @@ export default function Transition(props: ITransitionProps) {
   const getClassNames = name => ({
     enter: `${cn[`van_${name}_enter`]} ${
       cn[`van_${name}_enter_active`]
-    } enter_class enter_active_class`,
+    } enter-class enter-active-class`,
     enter_to: `${cn[`van_${name}_enter_to`]} ${
       cn[`van_${name}_enter_active`]
-    } enter_to_class enter_active_class`,
+    } enter-to-class enter-active-class`,
     leave: `${cn[`van_${name}_leave`]} ${
       cn[`van_${name}_leave_active`]
-    } leave_class leave_active_class`,
+    } leave-class leave-active-class`,
     leave_to: `${cn[`van_${name}_leave_to`]} ${
       cn[`van_${name}_leave_active`]
-    } leave_to_class leave_active_class`
+    } leave-to-class leave-active-class`
   });
 
   const nextTick = () => new Promise(resolve => setTimeout(resolve, 1000 / 30));
 
   const enter = () => {
-    console.log("enter...", cn);
+    console.log("enter...");
     const { duration, name } = props;
     const classNames = getClassNames(name);
     console.log("enter name...", name);
@@ -66,7 +57,6 @@ export default function Transition(props: ITransitionProps) {
       status: "enter"
     }));
     console.log("currentDuration...", currentDuration);
-    console.log("enter 1...", state);
 
     props.onBeforeEnter && props.onBeforeEnter();
     Promise.resolve()
@@ -74,12 +64,6 @@ export default function Transition(props: ITransitionProps) {
       .then(() => {
         // checkStatus("enter");
         props.onEnter && props.onEnter();
-        console.log("enter 2...", {
-          inited: true,
-          display: true,
-          classes: classNames.enter,
-          currentDuration
-        });
         setState(preState => ({
           ...preState,
           inited: true,
@@ -92,16 +76,17 @@ export default function Transition(props: ITransitionProps) {
       .then(() => {
         // checkStatus("enter");
         this.transitionEnded = false;
-        setTimeout(() => onTransitionEnd(props.onAfterEnter), currentDuration);
+        // setTimeout(() => onTransitionEnd(props.onAfterEnter), currentDuration);
         setState(preState => ({
           ...preState,
-          classes: classNames["enter-to"]
+          classes: classNames["enter_to"]
         }));
       })
       .catch(() => {});
   };
 
   const leave = () => {
+    console.log("leave...");
     if (!state.display) {
       return;
     }
@@ -130,7 +115,7 @@ export default function Transition(props: ITransitionProps) {
       .then(() => {
         // checkStatus("leave");
         this.transitionEnded = false;
-        setTimeout(() => onTransitionEnd(props.onAfterLeave), currentDuration);
+        setTimeout(() => onTransitionEnd(), currentDuration);
         setState(preState => ({
           ...preState,
           classes: classNames["leave_to"]
@@ -147,15 +132,13 @@ export default function Transition(props: ITransitionProps) {
     }
   };
 
-  const onTransitionEnd = callback => {
-    console.log("onTransitionEnd...");
+  const onTransitionEnd = () => {
+    console.log("onTransitionEnd...", this.transitionEnded);
     if (this.transitionEnded) {
       return;
     }
 
     this.transitionEnded = true;
-
-    callback && callback();
     const { display } = state;
     if (!props.show && display) {
       setState(preState => ({ ...preState, display: false }));
@@ -167,17 +150,17 @@ export default function Transition(props: ITransitionProps) {
     props.show ? enter() : leave();
   }, [props.show]);
 
-  // console.log("transitionState...", state);
+  console.log("transitionState...", state);
   return (
     <Block>
       {state.inited ? (
         <View
-          className={`${cn.van_transition} ${externalClasses} ${state.classes}`}
+          className={`${cn.van_transition} ${state.classes} custom-class`}
           style={`-webkit-transition-duration: ${
             state.currentDuration
           }ms; transition-duration: ${state.currentDuration}ms; ${
             state.display ? "" : "display: none;"
-          } ${props.customStyle}}`}
+          } ${props.customStyle} `}
           onTransitionEnd={onTransitionEnd}
         >
           {props.children}

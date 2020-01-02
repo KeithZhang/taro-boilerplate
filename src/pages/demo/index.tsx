@@ -55,8 +55,11 @@ export default function Demo() {
   function onClickCustom() {
     setState(preState => ({ ...preState, showCustom: true }));
     setTimeout(() => {
-      setState(preState => ({ ...preState, showCustom: false }));
-    }, 1000);
+      setState(preState => {
+        console.log("onClickCustom");
+        return { ...preState, showCustom: false };
+      });
+    }, 3000);
   }
 
   function onBeforeEnter() {
@@ -96,9 +99,11 @@ export default function Demo() {
       <Button onClick={onClickSlideRight}>Slide Right</Button>
       <Button onClick={onClickCustom}>Custom</Button>
 
-      <Transition show={state.show} name={state.name} custom-class={cn.block}>
-        hello
-      </Transition>
+      <Transition
+        show={state.show}
+        name={state.name}
+        custom-class={cn.block}
+      ></Transition>
       <Transition
         show={state.showCustom}
         duration={{ enter: 3000, leave: 3000 }}
@@ -114,9 +119,7 @@ export default function Demo() {
         onBeforeLeave={onBeforeLeave}
         onLeave={onLeave}
         onAfterLeave={onAfterLeave}
-      >
-        hello
-      </Transition>
+      ></Transition>
     </View>
   );
 }
