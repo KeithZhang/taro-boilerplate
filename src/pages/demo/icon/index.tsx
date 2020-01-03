@@ -17,16 +17,15 @@ export default function IconPage() {
   };
 
   const currentType = ["basic", "outline", "filled", "case"];
-  console.log(
-    "configData[currentType[state.active]]...",
-    configData[currentType[state.active]]
-  );
+  const icons = configData[currentType[state.active]];
+
   return (
     <View className="vbox">
       <View className="hbox">
         <Button
           size="mini"
           style={state.active == 0 ? "background-color: #3d85cc" : ""}
+          className={cn.btn}
           onClick={() => {
             switchActive(0);
           }}
@@ -36,6 +35,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 1 ? "background-color: #3d85cc" : ""}
+          className={cn.btn}
           onClick={() => {
             switchActive(1);
           }}
@@ -45,6 +45,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 2 ? "background-color: #3d85cc" : ""}
+          className={cn.btn}
           onClick={() => {
             switchActive(2);
           }}
@@ -54,6 +55,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 3 ? "background-color: #3d85cc" : ""}
+          className={cn.btn}
           onClick={() => {
             switchActive(3);
           }}
@@ -61,10 +63,14 @@ export default function IconPage() {
           用法示例
         </Button>
       </View>
-      <View className="wrap_box">
-        {configData[currentType[state.active]].map((v, i) => (
-          <QMIcon name={v} key={v + i} size="32px" custom-class={cn.icon} />
-        ))}
+      <View className="wbox_center">
+        {icons &&
+          icons.map((v, i) => (
+            <View className={`vbox_center ${cn.icon_container}`} key={v + i}>
+              <QMIcon name={v} size="32px" custom-class={cn.icon} />
+              <View className="font_26">{v}</View>
+            </View>
+          ))}
       </View>
     </View>
   );
