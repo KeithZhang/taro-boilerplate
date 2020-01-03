@@ -72,6 +72,12 @@ export default function IconPage() {
             </View>
           ))}
       </View>
+      {state.active == 3 ? (
+        <View className={`vbox_center ${cn.icon_container}`}>
+          <QMIcon name="location_o" size="32px" dot custom-class={cn.icon} />
+          <View className={`font_26 ${cn.text}`}>location_o</View>
+        </View>
+      ) : null}
     </View>
   );
 }
