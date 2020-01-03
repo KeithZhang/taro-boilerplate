@@ -1,6 +1,7 @@
+import { Block, View } from "@tarojs/components";
 import Overlay from "../overlay";
 import useTransition from "../hooks/useTransition";
-import { Block, View } from "@tarojs/components";
+import useBem from "../hooks/useBem";
 
 import cn from "./index.module.less";
 
@@ -41,44 +42,7 @@ export default function Popup(props: IPopupProps) {
     }
   };
 
-  var PREFIX = "van_";
-
-  function join(name, mods) {
-    name = PREFIX + name;
-    mods = mods.map(function(mod) {
-      return name + "__" + mod;
-    });
-    mods.unshift(name);
-    mods = mods.map(mod => {
-      return cn[mod];
-    });
-    return mods.join(" ");
-  }
-
-  function traversing(mods, conf) {
-    if (!conf) {
-      return;
-    }
-
-    if (typeof conf === "string" || typeof conf === "number") {
-      mods.push(conf);
-    } else if (Array.isArray(conf)) {
-      conf.forEach(function(item) {
-        traversing(mods, item);
-      });
-    } else if (typeof conf === "object") {
-      Object.keys(conf).forEach(function(key) {
-        conf[key] && mods.push(key);
-      });
-    }
-  }
-
-  function bem(name, conf) {
-    var mods = [];
-    traversing(mods, conf);
-    return join(name, mods);
-  }
-
+  const { bem } = useBem(cn);
   const calcClasses = bem("popup", [
     props.position,
     {

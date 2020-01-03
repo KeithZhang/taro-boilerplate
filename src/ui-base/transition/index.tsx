@@ -1,7 +1,6 @@
 import { View, Block } from "@tarojs/components";
 import cn from "./index.module.less";
-import { useState, useEffect, useCallback } from "@tarojs/taro";
-import { isObj } from "../util";
+
 import useTransition from "../hooks/useTransition";
 
 interface ITransitionProps {
