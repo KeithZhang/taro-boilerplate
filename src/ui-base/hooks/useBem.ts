@@ -7,6 +7,7 @@ export default function useBem(cn) {
       return name + "__" + mod;
     });
     mods.unshift(name);
+    console.log("mods...", mods);
     mods = mods.map(mod => {
       return cn[mod];
     });

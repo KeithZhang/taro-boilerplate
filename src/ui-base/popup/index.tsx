@@ -51,8 +51,8 @@ export default function Popup(props: IPopupProps) {
       safeAreaInsetTop: props.safeAreaInsetTop
     }
   ]);
-  console.log("state.classes...", state.classes);
-  console.log("calcClasses...", calcClasses);
+  // console.log("state.classes...", state.classes);
+  // console.log("calcClasses...", calcClasses);
   return (
     <Block>
       {props.overlay ? (

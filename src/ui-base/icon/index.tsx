@@ -25,7 +25,7 @@ export default function QMIcon(props: IIconProps) {
     return REGEXP.test("" + value) ? value + "px" : value;
   }
 
-  console.log("qm icon...", props);
+  // console.log("qm icon...", props);
 
   return (
     <View

@@ -2,10 +2,9 @@ import { View } from "@tarojs/components";
 
 import cn from "./index.module.less";
 import useBem from "../hooks/useBem";
-import { useContext } from "@tarojs/taro";
 
 interface ITabbarProps {
-  active?: number;
+  active?: number | string;
   fixed?: boolean;
   border?: boolean;
   zIndex?: number;
@@ -13,6 +12,7 @@ interface ITabbarProps {
   inactiveColor?: string;
   safeAreaInsetBottom?: boolean;
   children?: any;
+  onChange?: (active: string | number) => void;
 }
 
 export const TabbarContext = Taro.createContext(undefined as any);
@@ -20,19 +20,27 @@ export const TabbarContext = Taro.createContext(undefined as any);
 export default function Tabbar(props: ITabbarProps) {
   const { bem } = useBem(cn);
 
-  const onChange = name => {
-    console.log("tabbar onchange...", name);
+  const onChange = active => {
+    props.onChange && props.onChange(active);
   };
-
+  const dyClss = bem("tabbar", {
+    fixed: props.fixed,
+    safe: props.safeAreaInsetBottom
+  });
+  console.log("dyClss...", dyClss);
   return (
-    <TabbarContext.Provider value={{ onChange }}>
+    <TabbarContext.Provider
+      value={{
+        onChange,
+        active: props.active,
+        activeColor: props.activeColor,
+        inactiveColor: props.inactiveColor
+      }}
+    >
       <View
-        className={`custom-class  ${
+        className={`custom-class  ${dyClss} ${
           props.border ? cn.van_hairline__top_bottom : ""
-        } ${bem("tabbar", {
-          fixed: props.fixed,
-          safe: props.safeAreaInsetBottom
-        })}`}
+        }`}
         style={props.zIndex ? `z-index: ${props.zIndex}` : ""}
         onClick={e => {
           console.log("tabbar onclick...", e);
@@ -45,7 +53,7 @@ export default function Tabbar(props: ITabbarProps) {
 }
 
 Tabbar.defaultProps = {
-  fiexed: true,
+  fixed: true,
   border: true,
   zIndex: 1,
   activeColor: "#1989fa",

@@ -18,7 +18,12 @@ interface ITabbarItemProps {
 }
 
 export default function TabbarItem(props: ITabbarItemProps) {
-  const { onChange } = useContext(TabbarContext);
+  const {
+    onChange,
+    active: parentActive,
+    activeColor,
+    inactiveColor
+  } = useContext(TabbarContext);
   const [state, setState] = useState({ active: null } as {
     active: any;
   });
@@ -29,16 +34,19 @@ export default function TabbarItem(props: ITabbarItemProps) {
     ? props.renderActiveIcon()
     : props.renderIcon();
 
+  const active = (props.name || state.active) === parentActive;
+  console.log("parentActive...", parentActive);
+  console.log("active...", state.active);
   return (
     <View
-      className={bem("tabbar_item", { active: state.active })}
-      onClick={e => {
-        console.log("tabbaritem onclick..", e);
+      className={bem("tabbar_item", { active })}
+      onClick={() => {
         setState({
           active: props.name
         });
-        onChange(props.name);
+        onChange && onChange(props.name);
       }}
+      style={`color: ${state.active ? activeColor : inactiveColor}`}
     >
       <View className={cn.van_tabbar_item__icon}>
         {props.icon ? (
