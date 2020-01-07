@@ -27,4 +27,9 @@ export default function Info(props: IInfoProps) {
   );
 }
 
+Info.defaultProps = {
+  info: "",
+  dot: false
+};
+
 Info.externalClasses = ["custom-class"];

@@ -27,6 +27,7 @@ class App extends Component {
   config: Config = {
     pages: [
       "pages/demo/index",
+      "pages/demo/tabbar/index",
       "pages/demo/icon/index",
       "pages/demo/popup/index",
       "pages/demo/overlay/index",
