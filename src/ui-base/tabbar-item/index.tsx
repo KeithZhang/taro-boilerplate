@@ -1,10 +1,11 @@
 import { View, Block } from "@tarojs/components";
-import { useState } from "@tarojs/taro";
+import { useState, useContext } from "@tarojs/taro";
 
 import useBem from "../hooks/useBem";
 import cn from "./index.module.less";
 import QMIcon from "../icon";
 import Info from "../info";
+import { TabbarContext } from "../tabbar";
 
 interface ITabbarItemProps {
   name?: string | number;
@@ -17,7 +18,10 @@ interface ITabbarItemProps {
 }
 
 export default function TabbarItem(props: ITabbarItemProps) {
-  const [state, setState] = useState({ active: false });
+  const { onChange } = useContext(TabbarContext);
+  const [state, setState] = useState({ active: null } as {
+    active: any;
+  });
 
   const { bem } = useBem(cn);
 
@@ -28,9 +32,12 @@ export default function TabbarItem(props: ITabbarItemProps) {
   return (
     <View
       className={bem("tabbar_item", { active: state.active })}
-      data-id={1}
       onClick={e => {
         console.log("tabbaritem onclick..", e);
+        setState({
+          active: props.name
+        });
+        onChange(props.name);
       }}
     >
       <View className={cn.van_tabbar_item__icon}>

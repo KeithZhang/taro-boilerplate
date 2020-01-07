@@ -11,8 +11,12 @@ export default function TabbarPage() {
     <View>
       <DemoBlock title="基本用法">
         <Tabbar custom-class={cn.tabbar}>
-          <TabbarItem icon="like_o">标签</TabbarItem>
-          <TabbarItem icon="star_o">标签</TabbarItem>
+          <TabbarItem icon="like_o" name={"home"}>
+            首页
+          </TabbarItem>
+          <TabbarItem icon="star_o" name={"mine"}>
+            我的
+          </TabbarItem>
         </Tabbar>
       </DemoBlock>
     </View>
