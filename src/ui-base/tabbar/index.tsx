@@ -3,6 +3,20 @@ import { View } from "@tarojs/components";
 import cn from "./index.module.less";
 import useBem from "../hooks/useBem";
 
+import TabbarItem from "./item";
+let items = [
+  {
+    name: "",
+    icon: "",
+    dot: false,
+    info: "",
+    text: "",
+    renderIcon: () => <View>renderIcon</View>,
+    renderActiveIcon: () => <View>renderActiveIcon</View>
+  },
+  { name: "", icon: "", dot: false, info: "" }
+];
+
 interface ITabbarProps {
   active?: number | string;
   fixed?: boolean;
@@ -12,43 +26,50 @@ interface ITabbarProps {
   inactiveColor?: string;
   safeAreaInsetBottom?: boolean;
   children?: any;
-  onChange?: (active: string | number) => void;
+  onChange?: (active: string | number | undefined) => void;
+  items: Array<{
+    text?: string;
+    name?: string | number;
+    icon?: string;
+    dot?: boolean;
+    info?: string | number;
+    renderIcon?: any;
+    renderActiveIcon?: any;
+    "custom-class"?: any;
+  }>;
 }
-
-export const TabbarContext = Taro.createContext(undefined as any);
 
 export default function Tabbar(props: ITabbarProps) {
   const { bem } = useBem(cn);
 
-  const onChange = active => {
-    props.onChange && props.onChange(active);
-  };
-  const dyClss = bem("tabbar", {
-    fixed: props.fixed,
-    safe: props.safeAreaInsetBottom
-  });
-  console.log("dyClss...", dyClss);
   return (
-    <TabbarContext.Provider
-      value={{
-        onChange,
-        active: props.active,
-        activeColor: props.activeColor,
-        inactiveColor: props.inactiveColor
+    <View
+      className={`custom-class ${bem("tabbar", {
+        fixed: props.fixed,
+        safe: props.safeAreaInsetBottom
+      })} ${props.border ? cn.van_hairline__top_bottom : ""}`}
+      style={props.zIndex ? `z-index: ${props.zIndex}` : ""}
+      onClick={e => {
+        console.log("tabbar onclick...", e);
       }}
     >
-      <View
-        className={`custom-class  ${dyClss} ${
-          props.border ? cn.van_hairline__top_bottom : ""
-        }`}
-        style={props.zIndex ? `z-index: ${props.zIndex}` : ""}
-        onClick={e => {
-          console.log("tabbar onclick...", e);
-        }}
-      >
-        {props.children}
-      </View>
-    </TabbarContext.Provider>
+      {props.items.map((v, i) => {
+        const currentActive = v.name == props.active;
+        const { text, ...others } = v;
+        return (
+          <TabbarItem
+            key={v.name + "_" + i}
+            active={currentActive}
+            {...others}
+            activeColor={props.activeColor}
+            inactiveColor={props.inactiveColor}
+            onChange={props.onChange}
+          >
+            {text}
+          </TabbarItem>
+        );
+      })}
+    </View>
   );
 }
 
@@ -58,7 +79,8 @@ Tabbar.defaultProps = {
   zIndex: 1,
   activeColor: "#1989fa",
   inactiveColor: "#7d7e80",
-  safeAreaInsetBottom: true
+  safeAreaInsetBottom: true,
+  items: []
 };
 
 Tabbar.externalClasses = ["custom-class"];

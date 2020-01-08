@@ -5,10 +5,10 @@ import useBem from "../hooks/useBem";
 import cn from "./index.module.less";
 import QMIcon from "../icon";
 import Info from "../info";
-import { TabbarContext } from "../tabbar";
+import { TabbarContext } from "../tabbar-only/context";
 
 interface ITabbarItemProps {
-  name?: string | number;
+  name?: string;
   icon?: string;
   dot?: boolean;
   info?: string | number;
@@ -18,35 +18,25 @@ interface ITabbarItemProps {
 }
 
 export default function TabbarItem(props: ITabbarItemProps) {
-  const {
-    onChange,
-    active: parentActive,
-    activeColor,
-    inactiveColor
-  } = useContext(TabbarContext);
-  const [state, setState] = useState({ active: null } as {
-    active: any;
-  });
+  console.log("tarbaritem>>>");
+  const tabbarContext = useContext(TabbarContext);
+  console.log("tarbaritem<<<", tabbarContext);
+  const { onChange, active: parentActive, activeColor, inactiveColor } =
+    tabbarContext || {};
 
   const { bem } = useBem(cn);
+  const active = props.name === parentActive;
 
-  const customIcon = state.active
-    ? props.renderActiveIcon()
-    : props.renderIcon();
+  const customIcon = active ? props.renderActiveIcon() : props.renderIcon();
 
-  const active = (props.name || state.active) === parentActive;
   console.log("parentActive...", parentActive);
-  console.log("active...", state.active);
   return (
     <View
-      className={bem("tabbar_item", { active })}
+      className={`custom-class ${bem("tabbar_item", { active })}`}
       onClick={() => {
-        setState({
-          active: props.name
-        });
         onChange && onChange(props.name);
       }}
-      style={`color: ${state.active ? activeColor : inactiveColor}`}
+      style={`color: ${active ? activeColor : inactiveColor}`}
     >
       <View className={cn.van_tabbar_item__icon}>
         {props.icon ? (

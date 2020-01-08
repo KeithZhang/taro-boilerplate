@@ -1,0 +1,21 @@
+@import "../common/index.module.less";
+
+.van_tabbar {
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  height: 100px;
+  height: var(--tabbar-height, 100px);
+  background-color: #fff;
+  background-color: var(--tabbar-background-color, #fff);
+}
+
+.van_tabbar__fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.van_tabbar__safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
