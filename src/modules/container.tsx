@@ -5,7 +5,7 @@ export default function Container(props) {
   return (
     props.moduleList &&
     props.moduleList.map((v, i) => {
-      switch (v.type) {
+      switch (v.id) {
         case 1: {
           return <Header />;
         }

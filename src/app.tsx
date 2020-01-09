@@ -35,8 +35,6 @@ class App extends Component {
       "pages/demo/transition/index",
       "pages/order/index",
       "pages/home/edit",
-      "pages/menu-item1/index",
-      "pages/menu-item1/edit",
       "pages/goods/index"
     ],
     window: {

@@ -11,20 +11,13 @@ import Header from "../../modules/header";
 import Bottom from "../../modules/bottom";
 import Container from "../../modules/container";
 
-const moduleMap = {};
-
 export default function HomeEdit() {
   const [state, setState] = useState({
     left: false,
     selectedModuleId: -1
   });
 
-  const permission = useAuth();
-
-  const [moduleList, setModuleList] = useState([
-    { type: 1 },
-    { type: 1 }
-  ] as any);
+  const [moduleList, setModuleList] = useState([] as any);
 
   console.log("moduleList...", moduleList);
 
@@ -40,6 +33,7 @@ export default function HomeEdit() {
       >
         <QMIcon name="plus" size="50px" />
       </View>
+      <Button>保存</Button>
       <Popup
         show={state.left}
         customStyle={"width: 80%; height: 100%"}
@@ -90,9 +84,9 @@ export default function HomeEdit() {
         </View>
         <Button
           onClick={() => {
-            let newModuleList = moduleList.concat(
-              moduleMap[state.selectedModuleId]
-            );
+            let newModuleList = moduleList.concat({
+              id: state.selectedModuleId
+            });
             console.log("newModuleList...", newModuleList);
             setModuleList(newModuleList);
             setState(preState => ({
@@ -105,7 +99,6 @@ export default function HomeEdit() {
           确定
         </Button>
       </Popup>
-      {permission ? <Button>保存</Button> : null}
     </View>
   );
 }

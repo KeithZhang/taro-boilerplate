@@ -1,10 +1,20 @@
 import { View } from "@tarojs/components";
-import { useState } from "@tarojs/taro";
+import { useState, ComponentOptions } from "@tarojs/taro";
 
-export default function Header() {
+import cn from "./index.module.less";
+
+export default function HeaderModule() {
   const [state, setState] = useState({
     like: false
   });
 
-  return <View>this is header {state.like}</View>;
+  return (
+    <View className={`hbox_center ${cn.header_container}`}>
+      this is header {state.like}
+    </View>
+  );
 }
+
+HeaderModule.options = {
+  addGlobalClass: true
+} as ComponentOptions;
