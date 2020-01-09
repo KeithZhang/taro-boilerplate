@@ -26,17 +26,17 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      "pages/home/index",
       "pages/demo/index",
       "pages/demo/tabbar/index",
       "pages/demo/icon/index",
       "pages/demo/popup/index",
       "pages/demo/overlay/index",
       "pages/demo/transition/index",
-      "pages/home/index",
       "pages/order/index",
       "pages/home/edit",
-      "pages/menu-item/index",
-      "pages/menu-item/edit",
+      "pages/menu-item1/index",
+      "pages/menu-item1/edit",
       "pages/goods/index"
     ],
     window: {
@@ -44,7 +44,8 @@ class App extends Component {
       navigationBarBackgroundColor: "#fff",
       navigationBarTitleText: "WeChat",
       navigationBarTextStyle: "black"
-    }
+    },
+    requiredBackgroundModes: ["audio"]
   };
 
   componentDidMount() {}
