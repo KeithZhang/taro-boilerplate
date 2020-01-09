@@ -4,7 +4,7 @@ import cn from "./index.module.less";
 
 interface IDemoBlockProps {
   title?: string;
-  padding?: string | number;
+  padding?: boolean;
   children?: any;
 }
 
