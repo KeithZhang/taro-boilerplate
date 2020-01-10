@@ -1,3 +1,4 @@
+import { View } from "@tarojs/components";
 import DemoBlock from "../components/demo-block";
 
 import QMLoading from "ui-base/loading";

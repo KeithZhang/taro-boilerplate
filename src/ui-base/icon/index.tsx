@@ -25,13 +25,13 @@ export default function QMIcon(props: IIconProps) {
     return REGEXP.test("" + value) ? value + "px" : value;
   }
 
-  // console.log("qm icon...", props);
+  console.log("qm icon...", props);
 
   return (
     <View
       className={`custom-class ${cn[props.classPrefix || "van_icon"]} ${
         props.name.indexOf("/") !== -1
-          ? cn["van_icon__image"]
+          ? cn.van_icon__image1
           : cn[props.classPrefix + "_" + props.name]
       }}`}
       style={`color: ${props.color};font-size: ${addUnit(props.size)}; ${
@@ -46,7 +46,13 @@ export default function QMIcon(props: IIconProps) {
           info={props.info}
         ></Info>
       ) : null}
-      {props.name.indexOf("/") !== -1 ? <Image src={props.name} /> : null}
+      {props.name.indexOf("/") !== -1 ? (
+        <Image
+          src={props.name}
+          mode="aspectFit"
+          className={cn.van_icon__image2}
+        />
+      ) : null}
     </View>
   );
 }
@@ -58,6 +64,7 @@ QMIcon.defaultProps = {
   size: "inherit",
   classPrefix: "van_icon",
   customStyle: "",
+  info: null,
   onClick: () => {}
 };
 

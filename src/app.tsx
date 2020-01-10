@@ -28,6 +28,7 @@ class App extends Component {
     pages: [
       "pages/demo/index",
       "pages/home/index",
+      "pages/demo/button/index",
       "pages/demo/loading/index",
       "pages/demo/tabbar/index",
       "pages/demo/icon/index",

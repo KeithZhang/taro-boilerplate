@@ -1,4 +1,4 @@
-import { Button, View } from "@tarojs/components";
+import { Button, View, Block } from "@tarojs/components";
 import {
   OnGetUserInfoEventDetail,
   OnContactEventDetail,
@@ -12,7 +12,10 @@ import {
 
 import cn from "./index.module.less";
 import useBem from "ui-base/hooks/useBem";
-import { useState } from "@tarojs/taro";
+import { useState, useEffect } from "@tarojs/taro";
+
+import Loading from "../loading";
+import QMIcon from "ui-base/icon";
 
 interface IButtonProps {
   type?: "default" | "primary" | "info" | "warning" | "danger";
@@ -56,6 +59,7 @@ interface IButtonProps {
   onGetPhoneNumber?: CommonEventFunction<OnGetPhoneNumberEventDetail>;
   onOpenSetting?: CommonEventFunction<OnOpenSettingEventDetail>;
   onError?: CommonEventFunction;
+  children?: any;
 }
 
 export default function QMButton(props: IButtonProps) {
@@ -63,6 +67,8 @@ export default function QMButton(props: IButtonProps) {
 
   const {
     type,
+    icon,
+    color,
     size,
     block,
     round,
@@ -75,6 +81,9 @@ export default function QMButton(props: IButtonProps) {
     openType,
     appParameter,
     sessionForm,
+    loadingText,
+    loadingSize,
+    loadingType,
     sendMessageTitle,
     sendMessagePath,
     sendMessageImg,
@@ -85,10 +94,35 @@ export default function QMButton(props: IButtonProps) {
     onContact,
     onGetPhoneNumber,
     onError,
-    onOpenSetting
+    onOpenSetting,
+    children
   } = props;
 
-  const [style, setStyle] = useState("");
+  const [state, setState] = useState({
+    style: ""
+  });
+
+  useEffect(() => {
+    let style = "";
+    if (color) {
+      style += `color: ${props.plain ? color : "white"};`;
+      if (!props.plain) {
+        // Use background instead of backgroundColor to make linear-gradient work
+        style += `background: ${color};`;
+      }
+      // hide border when color is linear-gradient
+      if (color.indexOf("gradient") !== -1) {
+        style += "border: 0;";
+      } else {
+        style += `border-color: ${color};`;
+      }
+    }
+    if (style !== state.style) {
+      setState({
+        style
+      });
+    }
+  }, [color]);
 
   return (
     <Button
@@ -108,7 +142,7 @@ export default function QMButton(props: IButtonProps) {
       ])} ${hairline ? cn.van_hairline__surround : ""}`}
       hoverClass={`${cn.van_button__active} hover-class`}
       lang={lang}
-      style={`${style} ${customStyle}`}
+      style={`${state.style} ${customStyle}`}
       openType={openType}
       sessionFrom={sessionForm}
       sendMessageTitle={sendMessageTitle}
@@ -116,19 +150,48 @@ export default function QMButton(props: IButtonProps) {
       sendMessageImg={sendMessageImg}
       showMessageCard={showMessageCard}
       appParameter={appParameter}
-      onClick={onClick}
+      onClick={e => {
+        if (!disabled && !loading) {
+          onClick && onClick(e);
+        }
+      }}
       onGetUserInfo={onGetUserInfo}
       onContact={onContact}
       onGetPhoneNumber={onGetPhoneNumber}
       onOpenSetting={onOpenSetting}
       onError={onError}
-    ></Button>
+    >
+      {loading ? (
+        <Loading
+          custom-class={props["loading-class"]}
+          size={loadingSize}
+          type={loadingType}
+          color={`${type === "default" ? "#c9c9c9" : "white"}`}
+        >
+          {loadingText ? (
+            <View className={cn.van_button__loading_text}>{loadingText}</View>
+          ) : null}
+        </Loading>
+      ) : (
+        <Block>
+          {icon ? (
+            <QMIcon
+              size="1.2em"
+              name={icon}
+              customStyle="line-height: inherit;"
+            />
+          ) : null}
+          <View className={cn.van_button__text}>{children}</View>
+        </Block>
+      )}
+    </Button>
   );
 }
 
 QMButton.defaultProps = {
   type: "default",
   size: "normal",
+  lang: "en",
   plain: false,
   block: false,
   round: false,
@@ -137,7 +200,9 @@ QMButton.defaultProps = {
   hairline: false,
   loading: false,
   loadingType: "circular",
-  loadingSize: "20px"
+  loadingSize: "20px",
+  customStyle: "",
+  onClick: () => {}
 };
 
 QMButton.externalClasses = ["hover-class", "custom-class", "loading-class"];

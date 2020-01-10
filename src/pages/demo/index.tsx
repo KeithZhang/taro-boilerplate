@@ -61,6 +61,16 @@ export default function Demo() {
       >
         loading
       </Button>
+
+      <Button
+        onClick={() => {
+          Taro.navigateTo({
+            url: "/pages/demo/button/index"
+          });
+        }}
+      >
+        button
+      </Button>
     </View>
   );
 }
