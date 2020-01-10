@@ -10,6 +10,7 @@ import cn from "./edit.module.less";
 import Header from "../../modules/header";
 import Bottom from "../../modules/bottom";
 import Container from "../../modules/container";
+import QMButton from "ui-base/button";
 
 export default function HomeEdit() {
   const [state, setState] = useState({
@@ -31,9 +32,18 @@ export default function HomeEdit() {
           setState(preState => ({ ...preState, left: !state.left }));
         }}
       >
-        <QMIcon name="plus" size="50px" />
+        <QMIcon
+          name="plus"
+          size="50px"
+          customStyle="box-shadow: 0 0 20px #3333; border-radius: 100%; margin-top: 20px;"
+        />
       </View>
-      <Button>保存</Button>
+
+      <View style="position: fixed; bottom: 0;width: 100%">
+        <QMButton size="large" type="primary">
+          保存
+        </QMButton>
+      </View>
       <Popup
         show={state.left}
         customStyle={"width: 80%; height: 100%"}
