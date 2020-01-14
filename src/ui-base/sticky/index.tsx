@@ -36,22 +36,20 @@ export default function Sticky(props: IStickyProps) {
     console.log("height...", height);
 
     if (fixed) {
-      setState(preState => ({
-        ...preState,
+      setState({
         wrapStyle: `top: ${offsetTop}px;`,
         containerStyle: `height: ${height}px; z-index: ${zIndex};`
-      }));
+      });
     } else {
-      setState(preState => ({
-        ...preState,
+      setState({
         wrapStyle: "",
         containerStyle: ""
-      }));
+      });
     }
   };
 
   const changeFixed = (type, top) => {
-    console.log("setFixed...", type);
+    console.log("changeFixed...", type);
 
     const { offsetTop = 0, onScroll } = props;
     const { containerHeight, height } = this;
@@ -127,7 +125,9 @@ export default function Sticky(props: IStickyProps) {
       console.log("getContainerRect...", rect);
       this.containerHeight = rect.height;
       disconnectObserver("containerObserver");
-      const containerObserver = Taro.createIntersectionObserver(this);
+      const containerObserver = Taro.createIntersectionObserver(this.$scope, {
+        thresholds: [0, 1]
+      });
       this.containerObserver = containerObserver;
       containerObserver.relativeToViewport({
         top: this.containerHeight - this.height
