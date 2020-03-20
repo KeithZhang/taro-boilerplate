@@ -31,7 +31,7 @@ export default function useBem(cn) {
     }
   }
 
-  function bem(name, conf) {
+  function bem(name, conf = {}) {
     var mods = [];
     traversing(mods, conf);
     return join(name, mods);

@@ -6,6 +6,15 @@ export default function Demo() {
       <Button
         onClick={() => {
           Taro.navigateTo({
+            url: "/pages/demo/grid/index"
+          });
+        }}
+      >
+        grid
+      </Button>
+      <Button
+        onClick={() => {
+          Taro.navigateTo({
             url: "/pages/demo/overlay/index"
           });
         }}
