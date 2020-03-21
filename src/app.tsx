@@ -38,6 +38,7 @@ class App extends Component {
       "pages/demo/grid/index",
       "pages/demo/action-sheet/index",
       "pages/demo/transition/index",
+      "pages/demo/toast/index",
       "pages/order/index",
       "pages/home/edit",
       "pages/goods/index"

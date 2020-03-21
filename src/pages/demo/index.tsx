@@ -6,10 +6,17 @@ export default function Demo() {
       <Button
         onClick={() => {
           Taro.navigateTo({
+            url: "/pages/demo/toast/index"
+          });
+        }}>
+        toast
+      </Button>
+      <Button
+        onClick={() => {
+          Taro.navigateTo({
             url: "/pages/demo/action-sheet/index"
           });
-        }}
-      >
+        }}>
         action-sheet
       </Button>
       <Button
@@ -17,8 +24,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/grid/index"
           });
-        }}
-      >
+        }}>
         grid
       </Button>
       <Button
@@ -26,8 +32,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/overlay/index"
           });
-        }}
-      >
+        }}>
         overlay
       </Button>
       <Button
@@ -35,8 +40,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/transition/index"
           });
-        }}
-      >
+        }}>
         transition
       </Button>
 
@@ -45,8 +49,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/popup/index"
           });
-        }}
-      >
+        }}>
         popup
       </Button>
 
@@ -55,8 +58,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/icon/index"
           });
-        }}
-      >
+        }}>
         icon
       </Button>
 
@@ -65,8 +67,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/tabbar/index"
           });
-        }}
-      >
+        }}>
         tabbar
       </Button>
 
@@ -75,8 +76,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/loading/index"
           });
-        }}
-      >
+        }}>
         loading
       </Button>
 
@@ -85,8 +85,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/button/index"
           });
-        }}
-      >
+        }}>
         button
       </Button>
       <Button
@@ -94,8 +93,7 @@ export default function Demo() {
           Taro.navigateTo({
             url: "/pages/demo/sticky/index"
           });
-        }}
-      >
+        }}>
         sticky
       </Button>
     </View>
