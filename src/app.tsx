@@ -36,6 +36,7 @@ class App extends Component {
       "pages/demo/popup/index",
       "pages/demo/overlay/index",
       "pages/demo/grid/index",
+      "pages/demo/action-sheet/index",
       "pages/demo/transition/index",
       "pages/order/index",
       "pages/home/edit",
