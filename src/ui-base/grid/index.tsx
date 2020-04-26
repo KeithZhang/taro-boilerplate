@@ -1,6 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import QMIcon from "../icon";
-import cn from "./index.module.less";
+import  "./index.less";
 import useBem from "../hooks/useBem";
 
 interface IGridProps {
@@ -19,7 +19,7 @@ interface IGridProps {
 
 export default function Grid(props: IGridProps) {
   const { gutter, square, columnName, onClick } = props;
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
   const style = `
     padding-left: ${gutter}px;
   `;

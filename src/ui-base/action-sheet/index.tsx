@@ -2,7 +2,7 @@ import { View, Text } from "@tarojs/components";
 import Popup from "../popup";
 import QMButton from "../button";
 
-import cn from "./index.module.less";
+import  "./index.less";
 import useBem from "../hooks/useBem";
 
 interface IActionProps {
@@ -43,7 +43,7 @@ interface IActionSheetProps {
 }
 
 export default function ActionSheet(props: IActionSheetProps) {
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
   const { show, cancelText, actions, onClose, onSelectClose, onSelect } = props;
 
   //
