@@ -102,6 +102,7 @@ export default function TabbarPage() {
           custom-class={cn.tabbar}
           activeColor="#07c160"
           inactiveColor="#000"
+          fixed
           onChange={(active: string) => {
             setState(preState => ({ ...preState, active4: active }));
           }}

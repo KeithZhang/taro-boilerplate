@@ -3,21 +3,22 @@ import {
   OnGetUserInfoEventDetail,
   OnContactEventDetail,
   OnGetPhoneNumberEventDetail,
-  OnOpenSettingEventDetail
+  OnOpenSettingEventDetail,
+  ButtonProps
 } from "@tarojs/components/types/Button";
 import {
   CommonEventFunction,
   ITouchEvent
 } from "@tarojs/components/types/common";
 
-import cn from "./index.module.less";
-import useBem from "ui-base/hooks/useBem";
+import "./index.less";
+import useBem from "../hooks/useBem";
 import { useState, useEffect } from "@tarojs/taro";
 
 import Loading from "../loading";
-import QMIcon from "ui-base/icon";
+import QMIcon from "../icon";
 
-interface IButtonProps {
+export interface IButtonProps {
   type?: "default" | "primary" | "info" | "warning" | "danger";
   size?: "normal" | "large" | "small" | "mini";
   color?: string;
@@ -46,7 +47,7 @@ interface IButtonProps {
     | "lifestyle"
     | "contactShare";
   appParameter?: string;
-  lang?: string;
+  lang?: keyof ButtonProps.lang;
   sessionForm?: string;
   businessId?: number;
   sendMessageTitle?: string;
@@ -63,7 +64,7 @@ interface IButtonProps {
 }
 
 export default function QMButton(props: IButtonProps) {
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
 
   const {
     type,
@@ -77,7 +78,7 @@ export default function QMButton(props: IButtonProps) {
     loading,
     disabled,
     hairline,
-    lang,
+    lang = "en",
     openType,
     appParameter,
     sessionForm,
@@ -124,23 +125,28 @@ export default function QMButton(props: IButtonProps) {
     }
   }, [color]);
 
+  const buttonClasses = bem("button", [
+    type,
+    size,
+    {
+      block,
+      round,
+      plain,
+      square,
+      loading,
+      disabled,
+      hairline,
+      unclickable: disabled || loading
+    }
+  ])
+
+  console.log('customStyle....', customStyle);
+
+
   return (
     <Button
-      className={`custom-class ${bem("button", [
-        type,
-        size,
-        {
-          block,
-          round,
-          plain,
-          square,
-          loading,
-          disabled,
-          hairline,
-          unclickable: disabled || loading
-        }
-      ])} ${hairline ? cn.van_hairline__surround : ""}`}
-      hoverClass={`${cn.van_button__active} hover-class`}
+      className={`custom-class ${buttonClasses} ${hairline ? "van-hairline--surround" : ""}`}
+      hoverClass={`van-button--active hover-class`}
       lang={lang}
       style={`${state.style} ${customStyle}`}
       openType={openType}
@@ -169,7 +175,7 @@ export default function QMButton(props: IButtonProps) {
           color={`${type === "default" ? "#c9c9c9" : "white"}`}
         >
           {loadingText ? (
-            <View className={cn.van_button__loading_text}>{loadingText}</View>
+            <View className='van-button__loading-text'>{loadingText}</View>
           ) : null}
         </Loading>
       ) : (
@@ -181,7 +187,7 @@ export default function QMButton(props: IButtonProps) {
               customStyle="line-height: inherit;"
             />
           ) : null}
-          <View className={cn.van_button__text}>{children}</View>
+          <View className='van-button__text'>{children}</View>
         </Block>
       )}
     </Button>

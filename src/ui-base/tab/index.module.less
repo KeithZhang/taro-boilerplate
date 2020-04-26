@@ -1,0 +1,22 @@
+@import "../common/index.module.less";
+
+:host {
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+  width: 100%;
+}
+.van_tab__pane,
+:host {
+  box-sizing: border-box;
+}
+.van_tab__pane {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.van_tab__pane--active {
+  height: auto;
+}
+.van_tab__pane--inactive {
+  height: 0;
+  overflow: visible;
+}

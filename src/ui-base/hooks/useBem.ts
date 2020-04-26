@@ -1,14 +1,14 @@
-export default function useBem(cn) {
-  var PREFIX = "van_";
+export default function useBem(cn = {}) {
+  var PREFIX = "van-";
 
   function join(name, mods) {
     name = PREFIX + name;
     mods = mods.map(function(mod) {
-      return name + "__" + mod;
+      return name + "--" + mod;
     });
     mods.unshift(name);
     mods = mods.map(mod => {
-      return cn[mod];
+      return mod;
     });
     return mods.join(" ");
   }
@@ -31,7 +31,7 @@ export default function useBem(cn) {
     }
   }
 
-  function bem(name, conf) {
+  function bem(name, conf = {}) {
     var mods = [];
     traversing(mods, conf);
     return join(name, mods);

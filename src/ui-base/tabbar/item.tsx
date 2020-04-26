@@ -1,7 +1,7 @@
 import { View, Block } from "@tarojs/components";
 
 import useBem from "../hooks/useBem";
-import cn from "./item.module.less";
+import  "./item.less";
 import QMIcon from "../icon";
 import Info from "../info";
 
@@ -34,27 +34,27 @@ export default function TabbarItem(props: ITabbarItemProps) {
     onChange
   } = props;
 
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
 
   const customIcon = active ? renderActiveIcon() : renderIcon();
 
   return (
     <View
-      className={`custom-class ${bem("tabbar_item", { active })}`}
+      className={`custom-class ${bem("tabbar-item", { active })}`}
       onClick={() => {
         onChange && onChange(name);
       }}
       style={`color: ${active ? activeColor : inactiveColor}`}
     >
-      <View className={cn.van_tabbar_item__icon}>
+      <View className={'van-tabbar-item__icon'}>
         {icon ? (
-          <QMIcon name={icon} custom-class={cn.van_tabbar_item__icon__inner} />
+          <QMIcon name={icon} custom-class={'van-tabbar-item__icon__inner'} />
         ) : (
           <Block>{customIcon}</Block>
         )}
-        <Info dot={dot} info={info} custom-class={cn.van_tabbar_item__info} />
+        <Info dot={dot} info={info} custom-class='van-tabbar-item__info' />
       </View>
-      <View className={cn.van_tabbar_item__text}>{children}</View>
+      <View className='van-tabbar-item__text'>{children}</View>
     </View>
   );
 }

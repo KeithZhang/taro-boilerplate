@@ -1,6 +1,6 @@
-import { View } from "@tarojs/components";
+import { View } from '@tarojs/components';
 
-import cn from "./index.module.less";
+import './index.less';
 
 interface IDemoBlockProps {
   title?: string;
@@ -11,12 +11,12 @@ interface IDemoBlockProps {
 export default function DemoBlock(props: IDemoBlockProps) {
   return (
     <View
-      className={`custom-class ${cn.demo_block} ${cn.van_clearfix} ${
-        props.padding ? cn.demo_block__padding : ""
+      className={`custom-class demo-block van-clearfix ${
+        props.padding ? 'demo-block--padding' : ''
       }`}
     >
       {props.title ? (
-        <View className={cn.demo_block__title}>{props.title}</View>
+        <View className='demo-block__title'>{props.title}</View>
       ) : null}
       {props.children}
     </View>

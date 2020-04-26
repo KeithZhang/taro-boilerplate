@@ -1,7 +1,7 @@
 import { View, Image } from "@tarojs/components";
 
 import Info from "../info";
-import cn from "./index.module.less";
+import "./index.less";
 
 interface IIconProps {
   name: string;
@@ -26,32 +26,26 @@ export default function QMIcon(props: IIconProps) {
   }
 
   console.log("qm icon...", props);
-
+  const isImageName = props.name.indexOf("/") !== -1;
   return (
     <View
-      className={`custom-class ${cn[props.classPrefix || "van_icon"]} ${
-        props.name.indexOf("/") !== -1
-          ? cn.van_icon__image1
-          : cn[props.classPrefix + "_" + props.name]
-      }}`}
-      style={`color: ${props.color};font-size: ${addUnit(props.size)}; ${
+      className={`custom-class ${props.classPrefix} ${
+        isImageName ? "van-icon--image" : props.classPrefix + "-" + props.name
+      }`}
+      style={`color: ${props.color}; font-size: ${addUnit(props.size)}; ${
         props.customStyle
       }`}
       onClick={props.onClick}
     >
       {props.info !== null || props.dot ? (
         <Info
-          custom-class={cn.van_icon__info}
+          custom-class="van-icon__info"
           dot={props.dot}
           info={props.info}
         ></Info>
       ) : null}
-      {props.name.indexOf("/") !== -1 ? (
-        <Image
-          src={props.name}
-          mode="aspectFit"
-          className={cn.van_icon__image2}
-        />
+      {isImageName ? (
+        <Image src={props.name} mode="aspectFit" className="van-icon__image" />
       ) : null}
     </View>
   );
@@ -62,7 +56,7 @@ QMIcon.defaultProps = {
   dot: false,
   color: "inherit",
   size: "inherit",
-  classPrefix: "van_icon",
+  classPrefix: "van-icon",
   customStyle: "",
   info: null,
   onClick: () => {}

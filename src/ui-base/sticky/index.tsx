@@ -1,7 +1,7 @@
 import { View } from "@tarojs/components";
 import useBem from "../hooks/useBem";
 
-import cn from "./index.module.less";
+import  "./index.less";
 import { NodesRef, useState, useEffect, useCallback } from "@tarojs/taro";
 import useRect from "ui-base/hooks/useRect";
 
@@ -14,10 +14,10 @@ interface IStickyProps {
   onScroll?: ({ scrollTop: number, isFixed: boolean }) => void;
 }
 
-const ROOT_ELEMENT = "#van_sticky";
+const ROOT_ELEMENT = "#van-sticky";
 
 export default function Sticky(props: IStickyProps) {
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
   const { getRect } = useRect();
 
   const [fixed, setFixed] = useState(false);
@@ -176,11 +176,11 @@ export default function Sticky(props: IStickyProps) {
 
   return (
     <View
-      id="van_sticky"
-      className={`custom-class ${cn.van_sticky}`}
+      id="van-sticky"
+      className={`custom-class van-sticky`}
       style={state.containerStyle}
     >
-      <View className={bem("sticky_wrap", { fixed })} style={state.wrapStyle}>
+      <View className={bem("sticky-wrap", { fixed })} style={state.wrapStyle}>
         {props.children}
       </View>
     </View>

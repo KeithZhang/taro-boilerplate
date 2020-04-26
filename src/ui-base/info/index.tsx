@@ -1,6 +1,6 @@
 import { View, Block } from "@tarojs/components";
 
-import cn from "./index.module.less";
+import "./index.less";
 import useBem from "../hooks/useBem";
 
 interface IInfoProps {
@@ -10,12 +10,12 @@ interface IInfoProps {
 }
 
 export default function Info(props: IInfoProps) {
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
   return (
     <Block>
       {(props.info !== null && props.info !== "") || props.dot ? (
         <View
-          className={`custom-class ${cn.van_info} ${bem("info", {
+          className={`custom-class van-info ${bem("info", {
             dot: props.dot
           })}`}
           style={props.customStyle}

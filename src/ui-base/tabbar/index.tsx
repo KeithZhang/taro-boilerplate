@@ -1,6 +1,6 @@
 import { View } from "@tarojs/components";
 
-import cn from "./index.module.less";
+import "./index.less";
 import useBem from "../hooks/useBem";
 
 import TabbarItem from "./item";
@@ -40,14 +40,14 @@ interface ITabbarProps {
 }
 
 export default function Tabbar(props: ITabbarProps) {
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
 
   return (
     <View
       className={`custom-class ${bem("tabbar", {
         fixed: props.fixed,
         safe: props.safeAreaInsetBottom
-      })} ${props.border ? cn.van_hairline__top_bottom : ""}`}
+      })} ${props.border ? 'van-hairline--top-bottom' : ""}`}
       style={props.zIndex ? `z-index: ${props.zIndex}` : ""}
       onClick={e => {
         console.log("tabbar onclick...", e);

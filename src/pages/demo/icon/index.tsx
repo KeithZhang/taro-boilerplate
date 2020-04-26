@@ -4,7 +4,7 @@ import { useState, ComponentOptions } from "@tarojs/taro";
 import configData from "./config";
 import QMIcon from "ui-base/icon";
 
-import cn from "./index.module.less";
+import  "./index.less";
 export default function IconPage() {
   const [state, setState] = useState({
     active: 0
@@ -25,7 +25,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 0 ? "background-color: #3d85cc" : ""}
-          className={cn.btn}
+          className='btn'
           onClick={() => {
             switchActive(0);
           }}
@@ -35,7 +35,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 1 ? "background-color: #3d85cc" : ""}
-          className={cn.btn}
+          className='btn'
           onClick={() => {
             switchActive(1);
           }}
@@ -45,7 +45,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 2 ? "background-color: #3d85cc" : ""}
-          className={cn.btn}
+          className='btn'
           onClick={() => {
             switchActive(2);
           }}
@@ -55,7 +55,7 @@ export default function IconPage() {
         <Button
           size="mini"
           style={state.active == 3 ? "background-color: #3d85cc" : ""}
-          className={cn.btn}
+          className='btn'
           onClick={() => {
             switchActive(3);
           }}
@@ -66,26 +66,26 @@ export default function IconPage() {
       <View className="wbox_center">
         {icons &&
           icons.map((v, i) => (
-            <View className={`vbox_center ${cn.icon_container}`} key={v + i}>
-              <QMIcon name={v} size="32px" custom-class={cn.icon} />
-              <View className="font_26">{v}</View>
+            <View className={`vbox_center icon-container`} key={v + i}>
+              <QMIcon name={v} size="16px" custom-class='icon' />
+              <View className="font_13">{v}</View>
             </View>
           ))}
       </View>
       {state.active == 3 ? (
         <View className="wbox_center">
-          <View className={`vbox_center ${cn.icon_container}`}>
-            <QMIcon name="location_o" size="32px" dot custom-class={cn.icon} />
-            <View className={`font_26 ${cn.text}`}>location_o</View>
+          <View className={`vbox_center icon-container`}>
+            <QMIcon name="location-o" size="16px" dot custom-class='icon' />
+            <View className={`font_13 text`}>location-o</View>
           </View>
-          <View className={`vbox_center ${cn.icon_container}`}>
+          <View className={`vbox_center icon-container`}>
             <QMIcon
-              name="location_o"
-              size="32px"
-              custom-class={cn.icon}
+              name="location-o"
+              size="16px"
+              custom-class='icon'
               info="99+"
             />
-            <View className={`font_26 ${cn.text}`}>location_o</View>
+            <View className={`font_13 text`}>location-o</View>
           </View>
         </View>
       ) : null}

@@ -2,7 +2,7 @@ import { View, Block } from "@tarojs/components";
 import { useState, useContext } from "@tarojs/taro";
 
 import useBem from "../hooks/useBem";
-import cn from "./index.module.less";
+import "./index.less";
 import QMIcon from "../icon";
 import Info from "../info";
 import { TabbarContext } from "../tabbar-only/context";
@@ -24,7 +24,7 @@ export default function TabbarItem(props: ITabbarItemProps) {
   const { onChange, active: parentActive, activeColor, inactiveColor } =
     tabbarContext || {};
 
-  const { bem } = useBem(cn);
+  const { bem } = useBem();
   const active = props.name === parentActive;
 
   const customIcon = active ? props.renderActiveIcon() : props.renderIcon();
@@ -38,11 +38,11 @@ export default function TabbarItem(props: ITabbarItemProps) {
       }}
       style={`color: ${active ? activeColor : inactiveColor}`}
     >
-      <View className={cn.van_tabbar_item__icon}>
+      <View className='van-tabbar-item__icon'>
         {props.icon ? (
           <QMIcon
             name={props.icon}
-            custom-class={cn.van_tabbar_item__icon__inner}
+            custom-class='van-tabbar-item__icon__inner'
           />
         ) : (
           <Block>{customIcon}</Block>
@@ -50,10 +50,10 @@ export default function TabbarItem(props: ITabbarItemProps) {
         <Info
           dot={props.dot}
           info={props.info}
-          custom-class={cn.van_tabbar_item__info}
+          custom-class='van-tabbar-item__info'
         />
       </View>
-      <View className={cn.van_tabbar_item__text}>{props.children}</View>
+      <View className='van-tabbar-item__text'>{props.children}</View>
     </View>
   );
 }
