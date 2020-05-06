@@ -4,9 +4,11 @@ import useBem from "../hooks/useBem";
 import Sticky from "../sticky";
 import Info from "../info";
 
-import cn from "./index.module.less";
-import { useState } from "@tarojs/taro";
+import "./index.less";
+import { useState, useEffect, useScope } from "@tarojs/taro";
 import useRect from "../hooks/useRect";
+import { addUnit } from "ui-base/util";
+import useTouch from "../hooks/useTouch";
 
 interface ITabsProps {
   active?: string | number;
@@ -22,86 +24,121 @@ interface ITabsProps {
   ellipsis?: boolean;
   sticky?: boolean;
   swipeable?: boolean;
-  lazyRender?: boolean;
+  offsetTop?: number;
+  renderNavLeft?: any;
+  renderNavRight?: any;
+  titleActiveColor?: string;
+  titleInactiveColor?: string;
+  children?: any;
+  onDisabled?: ({
+    name,
+    title
+  }: {
+    name: string | number;
+    title: string;
+  }) => void;
+  onClick?: ({ name, title }: { name: string | number; title: string }) => void;
+  onChange?: ({
+    name,
+    title
+  }: {
+    name: string | number;
+    title: string;
+  }) => void;
+  onScroll?: ({
+    name,
+    title
+  }: {
+    name: string | number;
+    title: string;
+  }) => void;
   tabs?: Array<{
-    name?: string | number;
-    title?: string;
+    name: string | number;
+    title: string;
     disabled?: boolean;
     dot?: boolean;
     info?: string | number;
     titleStyle?: string;
     "custom-class"?: any;
   }>;
-  renderNavLeft?: any;
-  renderNavRight?: any;
-  titleActiveColor?: string;
-  titleInactiveColor?: string;
-  onDisabled?: ({
-    index,
-    name,
-    title
-  }: {
-    index: string | number;
-    name: string | number;
-    title: string;
-  }) => void;
-  onClick?: ({
-    index,
-    name,
-    title
-  }: {
-    index: string | number;
-    name: string | number;
-    title: string;
-  }) => void;
-  onChange?: ({
-    index,
-    name,
-    title
-  }: {
-    index: string | number;
-    name: string | number;
-    title: string;
-  }) => void;
-  onScroll?: ({
-    index,
-    name,
-    title
-  }: {
-    index: string | number;
-    name: string | number;
-    title: string;
-  }) => void;
 }
 
 export default function Tabs(props: ITabsProps) {
   const {
+    active,
     type = "line",
     sticky,
     zIndex,
     border,
     color = "#ee0a24",
-    tabs,
+    tabs = [],
+    animated,
+    lineWidth = -1,
+    lineHeight = -1,
+    duration,
+    offsetTop = 0,
     ellipsis = true,
+    swipeable = false,
     swipeThreshold = 4,
     renderNavLeft,
     renderNavRight,
     titleActiveColor,
     titleInactiveColor,
     onDisabled,
-    onClick
+    onClick,
+    onScroll,
+    onChange
   } = props;
-  const { bem } = useBem(cn);
+
+  const { bem } = useBem();
+
+  const scope = useScope();
+
   const container = () => {
-    return Taro.createSelectorQuery().select("#tabs");
+    return Taro.createSelectorQuery().select(".van-tabs");
   };
 
   const [scrollable, setScrollable] = useState(false);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [lineStyle, setLineStyle] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(null as any);
+  const [trackStyle, setTrackStyle] = useState("");
 
-  const onScroll = () => {};
+  const onTouchScroll = e => {
+    onScroll && onScroll(e.detail);
+  };
+
+  const { direction, deltaX, offsetX, touchStart, touchMove } = useTouch();
+
+  const onTouchStart = e => {
+    if (!swipeable) return;
+    console.log('onTouchStart...', e)
+    touchStart(e);
+  };
+
+  const onTouchMove = e => {
+    if (!swipeable) return;
+    console.log('onTouchMove...', e)
+    touchMove(e);
+  };
+
+  const onTouchEnd = (e) => {
+    if (!swipeable) return;
+    console.log('onTouchEnd...', e)
+
+    const minSwipeDistance = 50;
+    console.log('direction... ', direction)
+    console.log('deltaX... ', deltaX)
+    console.log('offsetX... ', offsetX)
+
+    if (direction === "horizontal" && offsetX >= minSwipeDistance) {
+      if (deltaX > 0 && currentIndex !== 0) {
+        setCurrentIndex(currentIndex - 1);
+      } else if (deltaX < 0 && currentIndex !== tabs.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+      }
+    }
+  };
 
   function tabClass(active, ellipsis) {
     var classes = ["tab-class"];
@@ -111,7 +148,7 @@ export default function Tabs(props: ITabsProps) {
     }
 
     if (ellipsis) {
-      classes.push(cn.van_ellipsis);
+      classes.push("van-ellipsis");
     }
 
     return classes.join(" ");
@@ -156,37 +193,40 @@ export default function Tabs(props: ITabsProps) {
   }
 
   const onTabClick = item => {
+    const { name, title } = item;
     if (item.disabled) {
       onDisabled &&
         onDisabled({
-          index: 0,
-          name: "",
-          title: ""
+          name,
+          title
         });
     } else {
       onClick &&
         onClick({
-          index: 0,
-          name: "",
-          title: ""
+          name,
+          title
         });
     }
   };
 
-  const { getAllRect } = useRect();
-  const setLine = (skipTransition?: boolean) => {
-    if (this.data.type !== "line") {
+  const { getRect } = useRect();
+  const [firstRender, setFirstRender] =  useState(true);
+  const setLine = () => {
+    console.log("setLine...", type);
+
+
+    if (type !== "line") {
       return;
     }
 
-    const { color, duration, currentIndex, lineWidth, lineHeight } = this.data;
-
-    getAllRect(".van-tab", this.$scope).then(rects => {
+    getRect(".van-tab", scope, true).then((rects: any) => {
+      console.log("currentIndex...", currentIndex);
       const rect = rects[currentIndex];
+      console.log("rect...", rect);
       if (rect == null) {
         return;
       }
-      const width = lineWidth !== -1 ? lineWidth : rect.width / 2;
+      const width: any = lineWidth !== -1 ? lineWidth : rect.width / 2;
       const height =
         lineHeight !== -1
           ? `height: ${addUnit(lineHeight)}; border-radius: ${addUnit(
@@ -200,34 +240,104 @@ export default function Tabs(props: ITabsProps) {
 
       left += (rect.width - width) / 2;
 
-      const transition = skipTransition
+      const transition = firstRender
         ? ""
         : `transition-duration: ${duration}s; -webkit-transition-duration: ${duration}s;`;
 
-      this.setData({
-        lineStyle: `
-          ${height}
-          width: ${addUnit(width)};
-          background-color: ${color};
-          -webkit-transform: translateX(${left}px);
-          transform: translateX(${left}px);
-          ${transition}
-        `
-      });
+      const tempLineStyle = `
+      ${height}
+      width: ${addUnit(width)};
+      background-color: ${color};
+      -webkit-transform: translateX(${left}px);
+      transform: translateX(${left}px);
+      ${transition}
+    `
+    console.log('tempLineStyle....', tempLineStyle)
+    setLineStyle(tempLineStyle);
+    if (firstRender) {
+      setFirstRender(false);
+    }
+    });
+
+  };
+
+  const setTrack = () => {
+    if (!animated) {
+      return;
+    }
+
+    setTrackStyle(`
+        transform: translate3d(${-100 * currentIndex}%, 0, 0);
+        -webkit-transition-duration: ${duration}s;
+        transition-duration: ${duration}s;
+      `);
+  };
+
+  const scrollIntoView = () => {
+    if (!scrollable) {
+      return;
+    }
+
+    Promise.all([
+      getRect(".van-tab", scope, true),
+      getRect(".van-tabs__nav", scope)
+    ]).then(([tabRects, navRect]: any) => {
+      const tabRect = tabRects[currentIndex];
+      const offsetLeft = tabRects
+        .slice(0, currentIndex)
+        .reduce((prev, curr) => prev + curr.width, 0);
+
+      setScrollLeft(offsetLeft - (navRect.width - tabRect.width) / 2);
     });
   };
 
+  useEffect(() => {
+    tabs.forEach((v, i) => {
+      if (v.name === active) {
+        setCurrentIndex(i);
+      }
+    });
+  }, [active]);
+
+  useEffect(() => {
+    scrollIntoView();
+
+    if (
+      currentIndex == undefined ||
+      currentIndex == null ||
+      currentIndex >= tabs.length ||
+      currentIndex < 0
+    ) {
+      return;
+    }
+
+    onChange && onChange(tabs[currentIndex]);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    setLine();
+  }, [currentIndex, color, lineWidth, lineHeight]);
+
+  useEffect(() => {
+    setTrack();
+  }, [animated, duration, currentIndex]);
+
+  useEffect(() => {
+    setScrollable(tabs.length > swipeThreshold || !ellipsis);
+  }, [tabs, swipeThreshold, ellipsis]);
+
   return (
-    <View id="tabs" className={`custom-class ${bem("tabs", [type])}`}>
+    <View className={`custom-class ${bem("tabs", [type])}`}>
       <Sticky
-        disabled={sticky}
+        disabled={!sticky}
         zIndex={zIndex}
+        offsetTop={offsetTop}
         container={container}
-        onScroll={onScroll}
+        onScroll={onTouchScroll}
       >
         <View
           className={`${bem("tabs__wrap", { scrollable })}  ${
-            type === "line" && border ? cn.van_hairline__top_bottom : ""
+            type === "line" && border ? "van-hairline--top-bottom" : ""
           }`}
         >
           {renderNavLeft()}
@@ -239,57 +349,74 @@ export default function Tabs(props: ITabsProps) {
             className={bem("tabs__scroll", [type])}
             style={color ? "border-color: " + color : ""}
           >
-            {type === "line" ? (
-              <View className={cn.van_tabs__line} style={lineStyle} />
-            ) : null}
+            <View className={`${bem("tabs__nav", [type])} nav-class`}>
+              {type === "line" ? (
+                <View className="van-tabs__line" style={lineStyle} />
+              ) : null}
 
-            {tabs?.map((item, i) => (
-              <View
-                key={item.name + "_" + i}
-                data-index={i}
-                className={`${tabClass(i === currentIndex, ellipsis)} ${bem(
-                  "tab",
-                  {
-                    active: i === currentIndex,
-                    disabled: item.disabled,
-                    complete: !ellipsis
-                  }
-                )}`}
-                style={tabStyle(
-                  i === currentIndex,
-                  ellipsis,
-                  color,
-                  type,
-                  item.disabled || false,
-                  titleActiveColor || "",
-                  titleInactiveColor || "",
-                  swipeThreshold,
-                  scrollable
-                )}
-                onClick={() => {
-                  onTabClick(item);
-                }}
-              >
+              {tabs.map((item, i) => (
                 <View
-                  className={ellipsis ? cn.van_ellipsis : ""}
-                  style={item.titleStyle}
+                  key={item.name + "_" + i}
+                  data-index={i}
+                  className={`${tabClass(item.name === active, ellipsis)} ${bem(
+                    "tab",
+                    {
+                      active: item.name === active,
+                      disabled: item.disabled,
+                      complete: !ellipsis
+                    }
+                  )}`}
+                  style={tabStyle(
+                    item.name === active,
+                    ellipsis,
+                    color,
+                    type,
+                    item.disabled || false,
+                    titleActiveColor || "",
+                    titleInactiveColor || "",
+                    swipeThreshold,
+                    scrollable
+                  )}
+                  onClick={() => {
+                    onTabClick(item);
+                  }}
                 >
-                  {item.title}
-                  {item.info !== null || item.dot ? (
-                    <Info
-                      info={item.info}
-                      dot={item.dot}
-                      custom-class={cn.van_tab__title__info}
-                    />
-                  ) : null}
+                  <View
+                    className={ellipsis ? "van-ellipsis" : ""}
+                    style={item.titleStyle}
+                  >
+                    {item.title}
+                    {item.info !== null || item.dot ? (
+                      <Info
+                        info={item.info}
+                        dot={item.dot}
+                        custom-class="van-tab__title__info"
+                      />
+                    ) : null}
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </ScrollView>
 
           {renderNavRight()}
         </View>
       </Sticky>
+
+      <View
+        className="van-tabs__content"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchEnd}
+      >
+        <View
+          className={`van-tabs__track ${bem("tabs__track", [{ animated }])}`}
+          style={trackStyle}
+        >
+          {props.children}
+        </View>
+      </View>
     </View>
   );
 }
@@ -316,5 +443,6 @@ Tabs.externalClasses = [
   "custom-class",
   "nav-class",
   "tab-class",
-  "tab-active-class"
+  "tab-active-class",
+  "line-class"
 ];

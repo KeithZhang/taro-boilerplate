@@ -2,7 +2,7 @@ import { View } from "@tarojs/components";
 import useBem from "../hooks/useBem";
 
 import  "./index.less";
-import { NodesRef, useState, useEffect, useCallback } from "@tarojs/taro";
+import { NodesRef, useState, useEffect, useCallback, useScope } from "@tarojs/taro";
 import useRect from "ui-base/hooks/useRect";
 
 interface IStickyProps {
@@ -14,7 +14,7 @@ interface IStickyProps {
   onScroll?: ({ scrollTop: number, isFixed: boolean }) => void;
 }
 
-const ROOT_ELEMENT = "#van-sticky";
+const ROOT_ELEMENT = ".van-sticky";
 
 export default function Sticky(props: IStickyProps) {
   const { bem } = useBem();
@@ -141,11 +141,12 @@ export default function Sticky(props: IStickyProps) {
     });
   };
 
+  const scope = useScope();
   const initObserver = () => {
     console.log("initObserver...");
     disconnectObserver();
-    getRect(ROOT_ELEMENT, this.$scope).then(rect => {
-      console.log("getRect...", rect);
+    getRect(ROOT_ELEMENT, scope).then(rect => {
+      console.log("sticky getRect...", rect);
       this.height = rect.height;
       Taro.nextTick(() => {
         observeContent();
@@ -176,7 +177,6 @@ export default function Sticky(props: IStickyProps) {
 
   return (
     <View
-      id="van-sticky"
       className={`custom-class van-sticky`}
       style={state.containerStyle}
     >

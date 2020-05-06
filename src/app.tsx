@@ -39,6 +39,7 @@ class App extends Component {
       "pages/demo/action-sheet/index",
       "pages/demo/transition/index",
       "pages/demo/toast/index",
+      "pages/demo/tabs/index",
       "pages/order/index",
       "pages/home/edit",
       "pages/goods/index"

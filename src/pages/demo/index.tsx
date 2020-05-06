@@ -96,6 +96,14 @@ export default function Demo() {
         }}>
         sticky
       </Button>
+      <Button
+        onClick={() => {
+          Taro.navigateTo({
+            url: "/pages/demo/tabs/index"
+          });
+        }}>
+        tabs
+      </Button>
     </View>
   );
 }
