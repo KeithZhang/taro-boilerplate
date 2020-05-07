@@ -1,10 +1,8 @@
-import { View, Block, Button } from "@tarojs/components";
-import { useState, useCallback } from "@tarojs/taro";
+import { View, Block } from "@tarojs/components";
+import { useState } from "@tarojs/taro";
 import Tabs from "ui-base/tabs";
 import Tab from "ui-base/tab";
 
-// import Tabs from "./tabs";
-// import TabItem from "./tab-item";
 import DemoBlock from "../components/demo-block/index";
 
 export default function TabsPage() {

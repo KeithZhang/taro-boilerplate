@@ -13,8 +13,6 @@ function getDirection(x: number, y: number) {
   return "";
 }
 
-
-
 const useTouch = () => {
   const [touchData, setTouchData] = useState({
     direction : "",
@@ -27,13 +25,6 @@ const useTouch = () => {
     startX : 0,
     startY : 0
   })
-  // let direction = "",
-  //   deltaX = 0,
-  //   deltaY = 0,
-  //   offsetX = 0,
-  //   offsetY = 0,
-  //   startX = 0,
-  //   startY = 0;
 
   const resetTouchStatus = () => {
     setTouchData({
@@ -48,8 +39,6 @@ const useTouch = () => {
   const touchStart = (event: TouchEvent) => {
     resetTouchStatus();
     const touch = event.touches[0];
-    // startX = touch.clientX;
-    // startY = touch.clientY;
 
     setStartData({
       startX: touch.clientX,
