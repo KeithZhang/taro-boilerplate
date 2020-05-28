@@ -1,109 +1,37 @@
 import { View, Button } from "@tarojs/components";
 
+
+const componentList = [
+  { title: 'toast', path: '/pages/demo/toast/index' },
+  { title: 'action-sheet', path: '/pages/demo/action-sheet/index' },
+  { title: 'grid', path: '/pages/demo/grid/index' },
+  { title: 'overlay', path: '/pages/demo/overlay/index' },
+  { title: 'transition', path: '/pages/demo/transition/index' },
+  { title: 'popup', path: '/pages/demo/popup/index' },
+  { title: 'icon', path: '/pages/demo/icon/index' },
+  { title: 'tabbar', path: '/pages/demo/tabbar/index' },
+  { title: 'loading', path: '/pages/demo/loading/index' },
+  { title: 'button', path: '/pages/demo/button/index' },
+  { title: 'sticky', path: '/pages/demo/sticky/index' },
+  { title: 'tabs', path: '/pages/demo/tabs/index' },
+  { title: 'nav-bar', path: '/pages/demo/nav-bar/index' },
+];
+
 export default function Demo() {
   return (
     <View>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/toast/index"
-          });
-        }}>
-        toast
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/action-sheet/index"
-          });
-        }}>
-        action-sheet
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/grid/index"
-          });
-        }}>
-        grid
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/overlay/index"
-          });
-        }}>
-        overlay
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/transition/index"
-          });
-        }}>
-        transition
-      </Button>
-
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/popup/index"
-          });
-        }}>
-        popup
-      </Button>
-
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/icon/index"
-          });
-        }}>
-        icon
-      </Button>
-
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/tabbar/index"
-          });
-        }}>
-        tabbar
-      </Button>
-
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/loading/index"
-          });
-        }}>
-        loading
-      </Button>
-
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/button/index"
-          });
-        }}>
-        button
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/sticky/index"
-          });
-        }}>
-        sticky
-      </Button>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/demo/tabs/index"
-          });
-        }}>
-        tabs
-      </Button>
+       {componentList.map((v, i) => (
+        <Button
+          key={v.title + i}
+          onClick={() => {
+            Taro.navigateTo({
+              url: v.path,
+            });
+          }}
+        >
+          {v.title}
+        </Button>
+      ))}
     </View>
   );
 }
